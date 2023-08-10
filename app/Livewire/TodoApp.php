@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Todo;
+use Exception;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -39,7 +40,11 @@ class TodoApp extends Component
 
     public function delete($id)
     {
-        Todo::find($id)->delete();
+        try {
+            Todo::findOrfail($id)->delete();
+        } catch (Exception $e) {
+            session()->flash('error', 'Failed to delete');
+        }
     }
 
     public function toggle($id)
