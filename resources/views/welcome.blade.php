@@ -7,7 +7,6 @@
     <title>DoDue</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    @livewireStyles
 </head>
 
 <body>
@@ -30,10 +29,9 @@
         </div>
     </div>
     <div id="content" class="mx-auto" style="max-width:500px;">
-        @livewire('todo-list')
+        @livewire('todo-app')
     </div>
 
-    @livewireScripts
 </body>
 
 </html>
