@@ -14,6 +14,10 @@ class TodoApp extends Component
     #[Rule('required|min:3|max:50')]
     public $name;
     public $search;
+    public $todoID;
+
+    #[Rule('required|min:3|max:50')]
+    public $newName;
 
     public function create()
     {
@@ -29,6 +33,8 @@ class TodoApp extends Component
         $this->reset();
 
         session()->flash("success", "Todo created");
+
+        $this->resetPage();
     }
 
     public function delete($id)
@@ -41,6 +47,28 @@ class TodoApp extends Component
         $todo = Todo::find($id);
         $todo->completed = !$todo->completed;
         $todo->save();
+    }
+
+    public function edit($id)
+    {
+        $this->todoID = $id;
+        $this->newName = Todo::find($id)->name;
+    }
+
+    public function cancelEdit()
+    {
+        $this->reset('todoID', 'newName');
+    }
+
+    public function update()
+    {
+        $this->validateOnly('newName');
+        Todo::find($this->todoID)->update(
+            [
+                'name' => $this->newName
+            ]
+        );
+        $this->cancelEdit();
     }
     public function render()
     {
